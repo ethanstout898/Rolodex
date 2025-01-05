@@ -6,15 +6,15 @@
 
   <div id="textFields">
 
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for a Business..." title="Type in a name">
-    <input type="text" id="myInputTwo" onkeyup="myFunctionTwo()" placeholder="Search for Names..." title="Type in a name">
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Names..." title="Type in a name">
+    <input type="text" id="myInputTwo" onkeyup="myFunctionTwo()" placeholder="Search for a Business..." title="Type in a name">
     <input type="text" id="myInputThree" onkeyup="myFunctionThree()" placeholder="Search for Jobs..." title="Type in a name">
   
     </div>
 
   <table id="table">
-    <th onclick="sortTable(0)">Business &#x2195;</th>
-    <th onclick="sortTable(1)">Name &#x2195;</th>
+    <th onclick="sortTable(0)">Name &#x2195;</th>
+    <th onclick="sortTable(1)">Business &#x2195;</th>
     <th onclick="sortTable(2)">Phone Number &#x2195;</th>
     <th onclick="sortTable(3)">Occupation &#x2195;</th>
     <th onclick="sortTable(4)">Comments &#x2195;</th>
@@ -26,8 +26,8 @@
       <form action="/delete" method="post">
         <div class="contact">
           <tr>
-          <td><p><%=  contact.business  %></p></td>  
-          <td><p><%=  contact.name  %></p></td>
+          <td><p><%=  contact.name  %></p></td>  
+          <td><p><%=  contact.business  %></p></td>
           <td><p><%=  contact.number  %></p></td>
           <td><p><%=  contact.occupation  %></p></td>
           <td><p><%=  contact.comments  %></p></td>
@@ -45,8 +45,8 @@
 
 <div class="addArea">  
     <form class="contact container-fluid" id="addArea" action="/" method="post">
-        <input type="text" name="newBusiness" placeholder="Business Name" autocomplete="off"><br>
         <input type="text" name="newName" placeholder="Contact Name" autocomplete="off"><br>
+        <input type="text" name="newBusiness" placeholder="Business Name" autocomplete="off"><br>
         <input type="text" name="newNumber" placeholder="Phone Number" autocomplete="off"><br>
         <input type="text" name="newOccupation" placeholder="Occupation" autocomplete="off"><br>
         <input type="text" name="newComments" placeholder="Comments" autocomplete="off"><br>

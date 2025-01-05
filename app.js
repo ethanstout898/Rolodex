@@ -15,8 +15,8 @@ app.use(express.static("public"));
 mongoose.connect("mongodb+srv://admin:"+process.env.DB_PASSWORD+"@"+process.env.CLUSTER+".mongodb.net/"+process.env.DB_NAME, {useNewUrlParser: true});
 
 const contactsSchema = mongoose.Schema({
-    business: String,
     name: String,
+    business: String,
     number: String,
     occupation: String,
     comments: String
@@ -39,16 +39,16 @@ app.get("/", function(req, res) {
 
 app.post("/", function(req, res){
 
-    const contactBusiness = req.body.newBusiness
     const contactName = req.body.newName;
+    const contactBusiness = req.body.newBusiness;
     const contactNumber = req.body.newNumber;
     const contactOccupation = req.body.newOccupation;
     const contactComments = req.body.newComments;
     const listName = req.body.list;
   
     const contact = new Contact({
-      business: contactBusiness,
       name: contactName,
+      business: contactBusiness,
       number: contactNumber,
       occupation: contactOccupation,
       comments: contactComments
