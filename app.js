@@ -15,6 +15,7 @@ app.use(express.static("public"));
 mongoose.connect("mongodb+srv://admin:"+process.env.DB_PASSWORD+"@"+process.env.CLUSTER+".mongodb.net/"+process.env.DB_NAME, {useNewUrlParser: true});
 
 const contactsSchema = mongoose.Schema({
+    business: String,
     name: String,
     number: String,
     occupation: String,
@@ -38,6 +39,7 @@ app.get("/", function(req, res) {
 
 app.post("/", function(req, res){
 
+    const contactBusiness = req.body.newBusiness
     const contactName = req.body.newName;
     const contactNumber = req.body.newNumber;
     const contactOccupation = req.body.newOccupation;
@@ -45,6 +47,7 @@ app.post("/", function(req, res){
     const listName = req.body.list;
   
     const contact = new Contact({
+      business: contactBusiness,
       name: contactName,
       number: contactNumber,
       occupation: contactOccupation,
@@ -95,10 +98,6 @@ const listName = req.body.listName;
         });
     }
 });
-
-function sortArrayName(contact) {
-  contact.name.sort();
-}
 
 app.listen("3000", function() {
     console.log("Server has started on port 3000");

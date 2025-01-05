@@ -7,16 +7,18 @@
 
   <div id="textFields">
 
-  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Names..." title="Type in a name">
-  <input type="text" id="myInputTwo" onkeyup="myFunctionTwo()" placeholder="Search for Jobs..." title="Type in a name">
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for a Business..." title="Type in a name">
+  <input type="text" id="myInputTwo" onkeyup="myFunctionTwo()" placeholder="Search for Names..." title="Type in a name">
+  <input type="text" id="myInputThree" onkeyup="myFunctionThree()" placeholder="Search for Jobs..." title="Type in a name">
 
   </div>
 
   <table id="table">
-    <th onclick="sortTable(0)">Name &#x2195;</th>
-    <th onclick="sortTable(1)">Phone Number &#x2195;</th>
-    <th onclick="sortTable(2)">Occupation &#x2195;</th>
-    <th onclick="sortTable(3)">Comments &#x2195;</th>
+    <th onclick="sortTable(0)">Business &#x2195;</th>
+    <th onclick="sortTable(1)">Name &#x2195;</th>
+    <th onclick="sortTable(2)">Phone Number &#x2195;</th>
+    <th onclick="sortTable(3)">Occupation &#x2195;</th>
+    <th onclick="sortTable(4)">Comments &#x2195;</th>
     
  
 
@@ -25,6 +27,7 @@
       <form action="/delete" method="post">
         <div class="contact">
           <tr>
+          <td><p><%=  contact.business  %></p></td>
           <td><p><%=  contact.name  %></p></td>
           <td><p><%=  contact.number  %></p></td>
           <td><p><%=  contact.occupation  %></p></td>
@@ -129,7 +132,26 @@ function myFunctionTwo() {
   table = document.getElementById("table");
   tr = table.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[2];
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+      
+    }       
+  }
+}
+function myFunctionThree() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInputThree");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[3];
     if (td) {
       txtValue = td.textContent || td.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
