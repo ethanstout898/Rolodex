@@ -56,13 +56,13 @@ app.post("/", function(req, res){
   
     if(listName === "Contacts") {
       contact.save();
-      res.redirect("/");
+      res.redirect("/update");
     } else {
       List.findOne({name: listName})
      .then((foundList) => {
         foundList.contacts.push(contact);
         foundList.save();
-        res.redirect("/" + listName);
+        res.redirect("/update" + listName);
       })
       .catch((err) => {
         console.log(err)
@@ -75,7 +75,7 @@ app.get("/update", function(req, res) {
   Contact.find({})
     .then((foundContacts) => {
         
-          res.render("add", {listTitle: "Contacts", newListContacts: foundContacts});
+          res.render("add", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
         })
     .catch((err) => {
         console.log(err);
@@ -84,17 +84,17 @@ app.get("/update", function(req, res) {
 
 app.post("/delete", function(req, res) {
 const checkedContactId = req.body.checkbox;
-const listName = req.body.listName;
+const listName = req.body.listName; 
 
     if(listName === "Contacts") {
         Contact.findByIdAndDelete(checkedContactId)
         .catch((err) => {
             console.log(err);
         });
-        res.redirect("/");
+        res.redirect("/update");
     } else {
         List.findOneAndUpdate({name: listName}, {$pull: {contactss: {_id: checkedContactId}}}, function(err, foundList) {
-        res.redirect("/" + listName);
+        res.redirect("/update" + listName);
         });
     }
 });
