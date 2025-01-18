@@ -30,7 +30,7 @@ app.get("/", function(req, res) {
     Contact.find({})
     .then((foundContacts) => {
         
-          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts});
+          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
         })
     .catch((err) => {
         console.log(err);
