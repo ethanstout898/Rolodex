@@ -93,12 +93,12 @@ const listName = req.body.listName;
         });
         res.redirect("/update");
     } else {
-        List.findOneAndUpdate({name: listName}, {$pull: {contactss: {_id: checkedContactId}}}, function(err, foundList) {
-        res.redirect("/update" + listName);
-        });
+        List.findOneAndUpdate({name: listName}, {$pull: {contacts: {_id: checkedContactId}}}, () => {
+            res.redirect("/update" + listName);
+          });
     }
 });
 
-app.listen("3000", function() {
+app.listen("3000", () =>  {
     console.log("Server has started on port 3000");
 });

@@ -2,47 +2,36 @@
 
 
 <div class="box" id="heading">
-    <h1> <%= listTitle %> </h1>
-  </div>  
+  <h1> <%= listTitle %> </h1>
+</div>  
 
-  <div id="textFields">
-
+<div id="textFields">
   <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Names..." title="Type in a Name">
   <input type="text" id="myInputTwo" onkeyup="myFunctionTwo()" placeholder="Search for a Business..." title="Type in a Business">
   <input type="text" id="myInputThree" onkeyup="myFunctionThree()" placeholder="Search for Jobs..." title="Type in a Job">
+</div>
 
-  </div>
+<table id="table">
+  <th onclick="sortTable(0)">Name &#x2195;</th>
+  <th onclick="sortTable(1)">Business &#x2195;</th>
+  <th onclick="sortTable(2)">Phone Number &#x2195;</th>
+  <th onclick="sortTable(3)">Occupation &#x2195;</th>
+  <th onclick="sortTable(4)">Comments &#x2195;</th>
 
-  <table id="table">
-    <th onclick="sortTable(0)">Name &#x2195;</th>
-    <th onclick="sortTable(1)">Business &#x2195;</th>
-    <th onclick="sortTable(2)">Phone Number &#x2195;</th>
-    <th onclick="sortTable(3)">Occupation &#x2195;</th>
-    <th onclick="sortTable(4)">Comments &#x2195;</th>
-    
- 
-
-<div class="box">
+  <div class="box">
     <% newListContacts.forEach(function(contact){ %>
-      <form action="/delete" method="post">
-        <div class="contact">
-          <tr>
+      <div class="contact">
+        <tr>
           <td><p><%=  contact.name  %></p></td>
           <td><p><%=  contact.business  %></p></td>
           <td><p><%=  contact.number  %></p></td>
           <td><p><%=  contact.occupation  %></p></td>
           <td><p><%=  contact.comments  %></p></td>
-          </tr>
-        </div>
-        <input type="hidden" name="listName" value="<%= listTitle %>"></input>
-      </form>
-  
+        </tr>
+      </div>
     <% }) %>
-    
+  </div>    
 </table>
-
-
-  </div>
 
 <script>// JavaScript program to illustrate
   // Table sort for both columns and both directions.
@@ -120,7 +109,6 @@
       } else {
         tr[i].style.display = "none";
       }
-      
     }       
   }
 }
@@ -139,8 +127,7 @@ function myFunctionTwo() {
         tr[i].style.display = "";
       } else {
         tr[i].style.display = "none";
-      }
-      
+      } 
     }       
   }
 }
@@ -159,7 +146,6 @@ function myFunctionThree() {
       } else {
         tr[i].style.display = "none";
       }
-      
     }       
   }
 }
