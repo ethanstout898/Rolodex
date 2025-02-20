@@ -7,10 +7,17 @@ require('dotenv').config()
 
 const app = express();
 
+var RateLimit = require('express-rate-limit');
+var limiter = RateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
+
 mongoose.set("strictQuery", false);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+app.use(limiter);
 
 mongoose.connect("mongodb+srv://admin:"+process.env.DB_PASSWORD+"@"+process.env.CLUSTER+".mongodb.net/"+process.env.DB_NAME);
 
@@ -86,6 +93,11 @@ app.post("/delete", function(req, res) {
 const checkedContactId = req.body.checkbox;
 const listName = req.body.listName; 
 
+if (typeof checkedContactId !== "string") {
+  res.status(400).json({ status: "error", message: "Invalid item ID" });
+  return;
+}
+
     if(listName === "Contacts") {
         Contact.findByIdAndDelete(checkedContactId)
         .catch((err) => {
@@ -93,7 +105,7 @@ const listName = req.body.listName;
         });
         res.redirect("/update");
     } else {
-        List.findOneAndUpdate({name: listName}, {$pull: {contacts: {_id: checkedContactId}}}, () => {
+        List.findOneAndUpdate({name: listName}, {$pull: {contacts: {_id: {$eq: checkedContactId}}}}, () => {
             res.redirect("/update" + listName);
           });
     }
