@@ -22,6 +22,7 @@ app.use(limiter);
 mongoose.connect("mongodb+srv://admin:"+process.env.DB_PASSWORD+"@"+process.env.CLUSTER+".mongodb.net/"+process.env.DB_NAME);
 
 const contactsSchema = mongoose.Schema({
+    yard: String,
     name: String,
     business: String,
     number: String,
@@ -46,6 +47,7 @@ app.get("/", function(req, res) {
 
 app.post("/", function(req, res){
 
+    const contactYard = req.body.newYard;
     const contactName = req.body.newName;
     const contactBusiness = req.body.newBusiness;
     const contactNumber = req.body.newNumber;
@@ -54,6 +56,7 @@ app.post("/", function(req, res){
     const listName = req.body.list;
   
     const contact = new Contact({
+      yard: contactYard,
       name: contactName,
       business: contactBusiness,
       number: contactNumber,
