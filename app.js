@@ -22,6 +22,7 @@ app.use(limiter);
 mongoose.connect("mongodb+srv://admin:"+process.env.DB_PASSWORD+"@"+process.env.CLUSTER+".mongodb.net/"+process.env.DB_NAME);
 
 const contactsSchema = mongoose.Schema({
+    yard: String,
     name: String,
     business: String,
     number: String,
@@ -33,8 +34,8 @@ const Contact = mongoose.model("contact", contactsSchema);
 
 app.set("view engine", "ejs");
 
-app.get("/", function(req, res) {
-    Contact.find({})
+app.get("/7802", function(req, res) {
+    Contact.find({yard: "7802"})
     .then((foundContacts) => {
         
           res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
@@ -44,8 +45,9 @@ app.get("/", function(req, res) {
     });
 });
 
-app.post("/", function(req, res){
+app.post("/7802", function(req, res){
 
+    const contactYard = req.body.newYard;
     const contactName = req.body.newName;
     const contactBusiness = req.body.newBusiness;
     const contactNumber = req.body.newNumber;
@@ -54,6 +56,7 @@ app.post("/", function(req, res){
     const listName = req.body.list;
   
     const contact = new Contact({
+      yard: contactYard,
       name: contactName,
       business: contactBusiness,
       number: contactNumber,
@@ -63,13 +66,13 @@ app.post("/", function(req, res){
   
     if(listName === "Contacts") {
       contact.save();
-      res.redirect("/update");
+      res.redirect("/7802update");
     } else {
       List.findOne({name: listName})
      .then((foundList) => {
         foundList.contacts.push(contact);
         foundList.save();
-        res.redirect("/update" + listName);
+        res.redirect("/7802update" + listName);
       })
       .catch((err) => {
         console.log(err)
@@ -78,18 +81,18 @@ app.post("/", function(req, res){
     
   });
 
-app.get("/update", function(req, res) {
-  Contact.find({})
+app.get("/7802update", function(req, res) {
+  Contact.find({yard: "7802"})
     .then((foundContacts) => {
         
-          res.render("add", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+          res.render("add7802", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
         })
     .catch((err) => {
         console.log(err);
     });
 })
 
-app.post("/delete", function(req, res) {
+app.post("/7802delete", function(req, res) {
 const checkedContactId = req.body.checkbox;
 const listName = req.body.listName; 
 
@@ -103,14 +106,94 @@ if (typeof checkedContactId !== "string") {
         .catch((err) => {
             console.log(err);
         });
-        res.redirect("/update");
+        res.redirect("/7802update");
     } else {
         List.findOneAndUpdate({name: listName}, {$pull: {contacts: {_id: {$eq: checkedContactId}}}}, () => {
-            res.redirect("/update" + listName);
+            res.redirect("/7802update" + listName);
           });
     }
 });
 
-app.listen("3000", () =>  {
-    console.log("Server has started on port 3000");
+app.get("/3214", function(req, res) {
+    Contact.find({yard: "3214"})
+    .then((foundContacts) => {
+        
+          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+        })
+    .catch((err) => {
+        console.log(err);
+    });
+});
+
+app.post("/3214", function(req, res){
+
+    const contactYard = req.body.newYard;
+    const contactName = req.body.newName;
+    const contactBusiness = req.body.newBusiness;
+    const contactNumber = req.body.newNumber;
+    const contactOccupation = req.body.newOccupation;
+    const contactComments = req.body.newComments;
+    const listName = req.body.list;
+  
+    const contact = new Contact({
+      yard: contactYard,
+      name: contactName,
+      business: contactBusiness,
+      number: contactNumber,
+      occupation: contactOccupation,
+      comments: contactComments
+    });
+  
+    if(listName === "Contacts") {
+      contact.save();
+      res.redirect("/3214update");
+    } else {
+      List.findOne({name: listName})
+     .then((foundList) => {
+        foundList.contacts.push(contact);
+        foundList.save();
+        res.redirect("/3214update" + listName);
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+    }
+    
+  });
+
+app.get("/3214update", function(req, res) {
+  Contact.find({yard: "3214"})
+    .then((foundContacts) => {
+        
+          res.render("add3214", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+        })
+    .catch((err) => {
+        console.log(err);
+    });
+})
+
+app.post("/3214delete", function(req, res) {
+const checkedContactId = req.body.checkbox;
+const listName = req.body.listName; 
+
+if (typeof checkedContactId !== "string") {
+  res.status(400).json({ status: "error", message: "Invalid item ID" });
+  return;
+}
+
+    if(listName === "Contacts") {
+        Contact.findByIdAndDelete(checkedContactId)
+        .catch((err) => {
+            console.log(err);
+        });
+        res.redirect("/3214update");
+    } else {
+        List.findOneAndUpdate({name: listName}, {$pull: {contacts: {_id: {$eq: checkedContactId}}}}, () => {
+            res.redirect("/3214update" + listName);
+          });
+    }
+});
+
+app.listen("8000", () =>  {
+    console.log("Server has started on port 8000");
 });
