@@ -1,6 +1,6 @@
 <%- include("header") -%>
 
-<form action="/">
+<form action="/7802">
   <button id="home"><i class="fa fa-home"></i></button>
 </form>
 
@@ -24,7 +24,7 @@
  
   <div class="box">
     <% newListContacts.forEach(function(contact){ %>
-      <form id="deleteButton" action="/delete" method="post">
+      <form id="deleteButton" action="/7802delete" method="post">
         <div class="contact">
           <tr>
             <td><p><%=  contact.name  %></p></td>  
@@ -44,7 +44,7 @@
 <h1 class="addText">ADD NEW CONTACT</h1>
 
 <div class="addArea">  
-  <form class="contact container-fluid" id="addArea" action="/" method="post">
+  <form class="contact container-fluid" id="addArea" action="/7802" method="post">
     <input type="hidden" name="newYard" value="7802">
     <input type="text" name="newName" placeholder="Contact Name" autocomplete="off"><br>
     <input type="text" name="newBusiness" placeholder="Business Name" autocomplete="off"><br>
