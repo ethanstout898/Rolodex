@@ -194,10 +194,86 @@ if (typeof checkedContactId !== "string") {
     }
 });
 
-app.listen("8000", () =>  {
-    console.log("Server has started on port 8000");
+app.get("/3222", function(req, res) {
+    Contact.find({yard: "3222"})
+    .then((foundContacts) => {
+        
+          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+        })
+    .catch((err) => {
+        console.log(err);
+    });
 });
 
-app.listen("3000", () =>  {
-    console.log("Server has started on port 3000");
+app.post("/3222", function(req, res){
+
+    const contactYard = req.body.newYard;
+    const contactName = req.body.newName;
+    const contactBusiness = req.body.newBusiness;
+    const contactNumber = req.body.newNumber;
+    const contactOccupation = req.body.newOccupation;
+    const contactComments = req.body.newComments;
+    const listName = req.body.list;
+  
+    const contact = new Contact({
+      yard: contactYard,
+      name: contactName,
+      business: contactBusiness,
+      number: contactNumber,
+      occupation: contactOccupation,
+      comments: contactComments
+    });
+  
+    if(listName === "Contacts") {
+      contact.save();
+      res.redirect("/3222update");
+    } else {
+      List.findOne({name: listName})
+     .then((foundList) => {
+        foundList.contacts.push(contact);
+        foundList.save();
+        res.redirect("/3222update" + listName);
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+    }
+    
+  });
+
+app.get("/3222update", function(req, res) {
+  Contact.find({yard: "3222"})
+    .then((foundContacts) => {
+        
+          res.render("add3222", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+        })
+    .catch((err) => {
+        console.log(err);
+    });
+})
+
+app.post("/3222delete", function(req, res) {
+const checkedContactId = req.body.checkbox;
+const listName = req.body.listName; 
+
+if (typeof checkedContactId !== "string") {
+  res.status(400).json({ status: "error", message: "Invalid item ID" });
+  return;
+}
+
+    if(listName === "Contacts") {
+        Contact.findByIdAndDelete(checkedContactId)
+        .catch((err) => {
+            console.log(err);
+        });
+        res.redirect("/3222update");
+    } else {
+        List.findOneAndUpdate({name: listName}, {$pull: {contacts: {_id: {$eq: checkedContactId}}}}, () => {
+            res.redirect("/3222update" + listName);
+          });
+    }
+});
+
+app.listen("8000", () =>  {
+    console.log("Server has started on port 8000");
 });
