@@ -38,7 +38,7 @@ app.get("/7802", function(req, res) {
     Contact.find({yard: "7802"})
     .then((foundContacts) => {
         
-          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID, yardNumber: "/7802update"});
         })
     .catch((err) => {
         console.log(err);
@@ -118,7 +118,7 @@ app.get("/3214", function(req, res) {
     Contact.find({yard: "3214"})
     .then((foundContacts) => {
         
-          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID, yardNumber: "/3214update"});
         })
     .catch((err) => {
         console.log(err);
@@ -198,7 +198,7 @@ app.get("/3222", function(req, res) {
     Contact.find({yard: "3222"})
     .then((foundContacts) => {
         
-          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID, yardNumber: "/3222update"});
         })
     .catch((err) => {
         console.log(err);
@@ -278,7 +278,7 @@ app.get("/3209", function(req, res) {
     Contact.find({yard: "3209"})
     .then((foundContacts) => {
         
-          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID, yardNumber: "/3209update"});
         })
     .catch((err) => {
         console.log(err);
@@ -358,7 +358,7 @@ app.get("/2504", function(req, res) {
     Contact.find({yard: "2504"})
     .then((foundContacts) => {
         
-          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID, yardNumber: "/2504update"});
         })
     .catch((err) => {
         console.log(err);
