@@ -445,7 +445,7 @@ if (typeof checkedContactId !== "string") {
 });
 
 app.get("/stores", function(req, res) {
-  Store.find({yard: "1917"})
+  Store.find()
     .then((foundStores) => {
         
           res.render("list", {listTitle: "Stores", newListStores: foundStores, faId: process.env.FA_ID, yardNumber: "/storesupdate"});
