@@ -485,7 +485,7 @@ app.get("/storesupdate", function(req, res) {
   Contact.find({yard: "1917"})
     .then((foundContacts) => {
         
-          res.render("addstore", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+          res.render("addstore", {listTitle: "Stores", newListContacts: foundContacts, faId: process.env.FA_ID});
         })
     .catch((err) => {
         console.log(err);
