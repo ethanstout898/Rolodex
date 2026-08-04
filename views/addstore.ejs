@@ -1,6 +1,6 @@
 <%- include("header") -%>
 
-<form action="/stores">
+<form action="/7802">
   <button id="home"><i class="fa fa-home"></i></button>
 </form>
 
@@ -42,10 +42,11 @@
 
 <div class="addArea">
   <form class="contact container-fluid" id="addArea" action="/stores" method="post">
-    <input type="hidden" name="newNumber" value="1917">
-    <input type="text" name="newName" placeholder="Contact Name" autocomplete="off"><br>
-    <input type="text" name="newPhoneNumber" placeholder="Business Name" autocomplete="off"><br>
-    <input type="text" name="newAddress" placeholder="Phone Number" autocomplete="off"><br>
+    <input type="hidden" name="newYard" value="1917">
+    <input type="text" name="newNumber" placeholder="Contact Yard" autocomplete="off"><br>
+    <input type="text" name="newName" placeholder="Location" autocomplete="off"><br>
+    <input type="text" name="newPhoneNumber" placeholder="Phone Number" autocomplete="off"><br>
+    <input type="text" name="newAddress" placeholder="Address" autocomplete="off"><br>
     <button type="submit" name="list" value="<%= listTitle %>">+</button>
   </form>
 </div>
