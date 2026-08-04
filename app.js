@@ -23,7 +23,9 @@ mongoose.connect("mongodb+srv://admin:"+process.env.DB_PASSWORD+"@"+process.env.
 
 const contactsSchema = mongoose.Schema({
     yard: String,
+    yardNumber: String,
     name: String,
+    address: String,
     business: String,
     number: String,
     occupation: String,
@@ -447,21 +449,19 @@ app.get("/stores", function(req, res) {
 
 app.post("/stores", function(req, res){
 
-    const contactYard = req.body.newYard;
-    const contactName = req.body.newName;
-    const contactBusiness = req.body.newBusiness;
-    const contactNumber = req.body.newNumber;
-    const contactOccupation = req.body.newOccupation;
-    const contactComments = req.body.newComments;
-    const listName = req.body.list;
+    const filter = req.body.newYard;
+    const storeNumber = req.body.newNumber;
+    const storeLocation = req.body.newName;
+    const storePhoneNumber = req.body.newPhoneNumber;
+    const storeAddress = req.body.newAddress;
+  
   
     const contact = new Contact({
-      yard: contactYard,
-      name: contactName,
-      business: contactBusiness,
-      number: contactNumber,
-      occupation: contactOccupation,
-      comments: contactComments
+      yard: filter,
+      yardNumber: storeNumber,
+      name: storeLocation,
+      number: storePhoneNumber,
+      address: storeAddress
     });
   
     if(listName === "Contacts") {
