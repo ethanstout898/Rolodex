@@ -21,6 +21,8 @@ app.use(limiter);
 
 mongoose.connect("mongodb+srv://admin:"+process.env.DB_PASSWORD+"@"+process.env.CLUSTER+".mongodb.net/"+process.env.DB_NAME);
 
+mongoose.connect("mongodb+srv://admin:"+process.env.DB_PASSWORD+"@"+process.env.CLUSTER+".mongodb.net/"+process.env.DB_NAME2);
+
 const contactsSchema = mongoose.Schema({
     yard: String,
     name: String,
