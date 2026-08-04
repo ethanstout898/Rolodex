@@ -30,7 +30,17 @@ const contactsSchema = mongoose.Schema({
     comments: String
 });
 
+const storesSchema = mongoose.Schema({
+    yard: String,
+    yardNumber: String,
+    name: String,
+    number: String,
+    address: String,
+});
+
 const Contact = mongoose.model("contact", contactsSchema);
+
+const Store = mongoose.model("Store", storesSchema);
 
 app.set("view engine", "ejs");
 
@@ -430,6 +440,84 @@ if (typeof checkedContactId !== "string") {
     } else {
         List.findOneAndUpdate({name: listName}, {$pull: {contacts: {_id: {$eq: checkedContactId}}}}, () => {
             res.redirect("/2504update" + listName);
+          });
+    }
+});
+
+app.get("/stores", function(req, res) {
+  Store.find({yard: "1917"})
+    .then((foundStores) => {
+        
+          res.render("list", {listTitle: "Stores", newListStores: foundStores, faId: process.env.FA_ID, yardNumber: "/storesupdate"});
+        })
+    .catch((err) => {
+        console.log(err);
+    });
+});
+
+app.post("/stores", function(req, res){
+
+    const filter = req.body.newYard;
+    const storeNumber = req.body.newNumber;
+    const storeLocation = req.body.newName;
+    const storePhoneNumber = req.body.newPhoneNumber;
+    const storeAddress = req.body.newAddress;
+  
+  
+    const store = new Store({
+      yard: filter,
+      yardNumber: storeNumber,
+      name: storeLocation,
+      number: storePhoneNumber,
+      address: storeAddress
+    });
+  
+    if(listName === "Stores") {
+      contact.save();
+      res.redirect("/storesupdate");
+    } else {
+      List.findOne({name: listName})
+     .then((foundList) => {
+        foundList.stores.push(store);
+        foundList.save();
+        res.redirect("/storesupdate" + listName);
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+    }
+    
+  });
+
+app.get("/storesupdate", function(req, res) {
+  Store.find({yard: "1917"})
+    .then((foundstores) => {
+        
+          res.render("addstore", {listTitle: "Stores", newListStores: foundStores, faId: process.env.FA_ID});
+        })
+    .catch((err) => {
+        console.log(err);
+    });
+})
+
+app.post("/storesdelete", function(req, res) {
+const checkedStoreId = req.body.checkbox;
+const listName = req.body.listName; 
+
+if (typeof checkedStoreId !== "string") {
+  res.status(400).json({ status: "error", message: "Invalid item ID" });
+  return;
+}
+
+    if(listName === "Stores") {
+        Store.findByIdAndDelete(checkedStoreId)
+        .catch((err) => {
+            console.log(err);
+        });
+        res.redirect("/storesupdate");
+    } else {
+        List.findOneAndUpdate({name: listName}, {$pull: {stores: {_id: {$eq: checkedStoreId}}}}, () => {
+            res.redirect("/storesupdate" + listName);
           });
     }
 });
