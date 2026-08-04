@@ -23,16 +23,24 @@ mongoose.connect("mongodb+srv://admin:"+process.env.DB_PASSWORD+"@"+process.env.
 
 const contactsSchema = mongoose.Schema({
     yard: String,
-    yardNumber: String,
     name: String,
-    address: String,
     business: String,
     number: String,
     occupation: String,
     comments: String
 });
 
+const storesSchema = mongoose.Schema({
+    yard: String,
+    yardNumber: String,
+    name: String,
+    number: String,
+    address: String,
+});
+
 const Contact = mongoose.model("contact", contactsSchema);
+
+const Store = mongoose.model("Store", storesSchema);
 
 app.set("view engine", "ejs");
 
@@ -437,10 +445,10 @@ if (typeof checkedContactId !== "string") {
 });
 
 app.get("/stores", function(req, res) {
-  Contact.find({yard: "1917"})
-    .then((foundContacts) => {
+  Store.find({yard: "1917"})
+    .then((foundStores) => {
         
-          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID, yardNumber: "/storesupdate"});
+          res.render("list", {listTitle: "Stores", newListStores: foundStores, faId: process.env.FA_ID, yardNumber: "/storesupdate"});
         })
     .catch((err) => {
         console.log(err);
@@ -456,7 +464,7 @@ app.post("/stores", function(req, res){
     const storeAddress = req.body.newAddress;
   
   
-    const contact = new Contact({
+    const store = new Store({
       yard: filter,
       yardNumber: storeNumber,
       name: storeLocation,
@@ -464,13 +472,13 @@ app.post("/stores", function(req, res){
       address: storeAddress
     });
   
-    if(listName === "Contacts") {
+    if(listName === "Stores") {
       contact.save();
       res.redirect("/storesupdate");
     } else {
       List.findOne({name: listName})
      .then((foundList) => {
-        foundList.contacts.push(contact);
+        foundList.stores.push(store);
         foundList.save();
         res.redirect("/storesupdate" + listName);
       })
@@ -482,10 +490,10 @@ app.post("/stores", function(req, res){
   });
 
 app.get("/storesupdate", function(req, res) {
-  Contact.find({yard: "1917"})
-    .then((foundContacts) => {
+  Store.find({yard: "1917"})
+    .then((foundstores) => {
         
-          res.render("addstore", {listTitle: "Stores", newListContacts: foundContacts, faId: process.env.FA_ID});
+          res.render("addstore", {listTitle: "Stores", newListStores: foundStores, faId: process.env.FA_ID});
         })
     .catch((err) => {
         console.log(err);
@@ -493,22 +501,22 @@ app.get("/storesupdate", function(req, res) {
 })
 
 app.post("/storesdelete", function(req, res) {
-const checkedContactId = req.body.checkbox;
+const checkedStoreId = req.body.checkbox;
 const listName = req.body.listName; 
 
-if (typeof checkedContactId !== "string") {
+if (typeof checkedStoreId !== "string") {
   res.status(400).json({ status: "error", message: "Invalid item ID" });
   return;
 }
 
-    if(listName === "Contacts") {
-        Contact.findByIdAndDelete(checkedContactId)
+    if(listName === "Stores") {
+        Store.findByIdAndDelete(checkedStoreId)
         .catch((err) => {
             console.log(err);
         });
         res.redirect("/storesupdate");
     } else {
-        List.findOneAndUpdate({name: listName}, {$pull: {contacts: {_id: {$eq: checkedContactId}}}}, () => {
+        List.findOneAndUpdate({name: listName}, {$pull: {stores: {_id: {$eq: checkedStoreId}}}}, () => {
             res.redirect("/storesupdate" + listName);
           });
     }
