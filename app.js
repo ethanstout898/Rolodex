@@ -21,8 +21,6 @@ app.use(limiter);
 
 mongoose.connect("mongodb+srv://admin:"+process.env.DB_PASSWORD+"@"+process.env.CLUSTER+".mongodb.net/"+process.env.DB_NAME);
 
-mongoose.connect("mongodb+srv://admin:"+process.env.DB_PASSWORD+"@"+process.env.CLUSTER+".mongodb.net/"+process.env.DB_NAME2);
-
 const contactsSchema = mongoose.Schema({
     yard: String,
     name: String,
@@ -42,7 +40,7 @@ const storesSchema = mongoose.Schema({
 
 const Contact = mongoose.model("contact", contactsSchema);
 
-const Store = mongoose.model("Store", storesSchema);
+const Store = mongoose.model("store", storesSchema);
 
 app.set("view engine", "ejs");
 
