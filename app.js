@@ -434,6 +434,86 @@ if (typeof checkedContactId !== "string") {
     }
 });
 
+app.get("/stores", function(req, res) {
+  Contact.find({yard: "1917"})
+    .then((foundContacts) => {
+        
+          res.render("list", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID, yardNumber: "/storesupdate"});
+        })
+    .catch((err) => {
+        console.log(err);
+    });
+});
+
+app.post("/stores", function(req, res){
+
+    const contactYard = req.body.newYard;
+    const contactName = req.body.newName;
+    const contactBusiness = req.body.newBusiness;
+    const contactNumber = req.body.newNumber;
+    const contactOccupation = req.body.newOccupation;
+    const contactComments = req.body.newComments;
+    const listName = req.body.list;
+  
+    const contact = new Contact({
+      yard: contactYard,
+      name: contactName,
+      business: contactBusiness,
+      number: contactNumber,
+      occupation: contactOccupation,
+      comments: contactComments
+    });
+  
+    if(listName === "Contacts") {
+      contact.save();
+      res.redirect("/storesupdate");
+    } else {
+      List.findOne({name: listName})
+     .then((foundList) => {
+        foundList.contacts.push(contact);
+        foundList.save();
+        res.redirect("/storesupdate" + listName);
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+    }
+    
+  });
+
+app.get("/storesupdate", function(req, res) {
+  Contact.find({yard: "1917"})
+    .then((foundContacts) => {
+        
+          res.render("addstore", {listTitle: "Contacts", newListContacts: foundContacts, faId: process.env.FA_ID});
+        })
+    .catch((err) => {
+        console.log(err);
+    });
+})
+
+app.post("/storesdelete", function(req, res) {
+const checkedContactId = req.body.checkbox;
+const listName = req.body.listName; 
+
+if (typeof checkedContactId !== "string") {
+  res.status(400).json({ status: "error", message: "Invalid item ID" });
+  return;
+}
+
+    if(listName === "Contacts") {
+        Contact.findByIdAndDelete(checkedContactId)
+        .catch((err) => {
+            console.log(err);
+        });
+        res.redirect("/storesupdate");
+    } else {
+        List.findOneAndUpdate({name: listName}, {$pull: {contacts: {_id: {$eq: checkedContactId}}}}, () => {
+            res.redirect("/storesupdate" + listName);
+          });
+    }
+});
+
 app.listen("8000", () =>  {
     console.log("Server has started on port 8000");
 });
