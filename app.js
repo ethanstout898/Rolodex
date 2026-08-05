@@ -448,7 +448,7 @@ app.get("/stores", function(req, res) {
   Store.find()
     .then((foundStores) => {
         
-          res.render("list", {listTitle: "Stores", newListStores: foundStores, faId: process.env.FA_ID, yardNumber: "/storesupdate"});
+          res.render("storelist", {listTitle: "Stores", newListStores: foundStores, faId: process.env.FA_ID, yardNumber: "/storesupdate"});
         })
     .catch((err) => {
         console.log(err);
@@ -462,6 +462,7 @@ app.post("/stores", function(req, res){
     const storeLocation = req.body.newName;
     const storePhoneNumber = req.body.newPhoneNumber;
     const storeAddress = req.body.newAddress;
+    const listName = req.body.list;
   
   
     const store = new Store({
@@ -473,7 +474,7 @@ app.post("/stores", function(req, res){
     });
   
     if(listName === "Stores") {
-      contact.save();
+      store.save();
       res.redirect("/storesupdate");
     } else {
       List.findOne({name: listName})
@@ -491,7 +492,7 @@ app.post("/stores", function(req, res){
 
 app.get("/storesupdate", function(req, res) {
   Store.find({yard: "1917"})
-    .then((foundstores) => {
+    .then((foundStores) => {
         
           res.render("addstore", {listTitle: "Stores", newListStores: foundStores, faId: process.env.FA_ID});
         })
