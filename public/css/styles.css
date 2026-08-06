@@ -56,6 +56,12 @@ html {
     background-color: #fff;
     width: 313px;
   }
+
+  .form-container {
+    display:flex;
+    gap: 15px;
+    justify-content: flex-end;
+  }
   
   button {
     min-height: 50px;
